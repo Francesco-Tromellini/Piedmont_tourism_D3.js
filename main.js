@@ -7,7 +7,6 @@ const viz3 = d3.select('#viz3');
 const width = 500,
       height = 600;
 
-const newLocal = 'position';
 // Title
 d3.select('#first_cont')
     .html('<center><h1>Piedmont Tourism Data 2005 - 2021</h1></center>')
@@ -17,7 +16,7 @@ d3.select('#first_cont')
 let region_list = ['NO', 'VC', 'BI', 'VB', 'CN', 'AL', 'TO', 'AT']
 let year_list = [2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
 
-
+// Loading data
 function loadData() {
     d3.dsv(';','Piedmont_tourism_data.csv', function(d){
         return{
@@ -34,7 +33,7 @@ function loadData() {
     }).then(onDataLoaded);
 }
 
-// Loading data
+// Setup filtering data
 function onDataLoaded(data) {
 
     let itArrForYear = [],
@@ -52,6 +51,7 @@ function onDataLoaded(data) {
     char1(totArrForYear, viz3);
 }
 
+// Filtering italian arrives per year
 function itYearFilter (data, currentYear) {
 
     let data_x = data.filter(d => d.year == currentYear);
@@ -65,6 +65,7 @@ function itYearFilter (data, currentYear) {
     return result;
 }
 
+// Filtering foreign arrives per year
 function stYearFilter (data, currentYear) {
     let data_x = data.filter(d => d.year == currentYear);
     let result = 0;
@@ -80,6 +81,7 @@ function stYearFilter (data, currentYear) {
     return result;
 }
 
+// Filtering all the arrives per year
 function totYearFilter (data, currentYear) {
     let data_x = data.filter(d => d.year == currentYear);
     let result = 0;
@@ -95,17 +97,23 @@ function totYearFilter (data, currentYear) {
     return result;
 }
 
+// Creating the bar chart
 function char1(charData, pointer) {
 
     console.log(charData);
-
+      
+    // Defining the canevas
     const svg = pointer.append('svg')
         .attr('width', width)
         .attr('height', height)
         .style('background', 'whiteSmoke')
 
+    // Initialisizing variables
     let yScale,
         xScale,
+        xAxisValues,
+        yAxisValues,
+        yAxisTicks,
         colors;
 
     yScale = d3.scaleLinear()
