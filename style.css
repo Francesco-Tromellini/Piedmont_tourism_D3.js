@@ -1,0 +1,25 @@
+h1{
+    color : darkblue;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 32px;
+    margin-top: 2%;
+    margin-left: 2%;
+}
+
+p {
+    text-align: justify;
+}
+
+body{
+    margin: 2em;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h2 {
+    color: skyblue;
+}
+
+.block {
+    display: inline-block ;
+}

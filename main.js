@@ -10,7 +10,6 @@ const width = 500,
 // Title
 d3.select('#first_cont')
     .html('<center><h1>Piedmont Tourism Data 2005 - 2021</h1></center>')
-    .style('background', 'whiteSmoke' )
 
 // Global data initialisation
 let region_list = ['NO', 'VC', 'BI', 'VB', 'CN', 'AL', 'TO', 'AT']
@@ -106,7 +105,7 @@ function char1(charData, pointer) {
     const svg = pointer.append('svg')
         .attr('width', width)
         .attr('height', height)
-        .style('background', 'whiteSmoke')
+        .style('background', 'lightslategray')
 
     // Initialisizing variables
     let yScale,
@@ -181,6 +180,7 @@ function char1(charData, pointer) {
         .attr('text-anchor', 'middle')
         .text('Number of arrivals per year')
         .style('fill', 'black')
+        .style('font-weight', 'bold')
 
 }
 
