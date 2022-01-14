@@ -116,37 +116,42 @@ function char1(charData, pointer) {
         yAxisTicks,
         colors;
 
+    // Vertical scale for bars
     yScale = d3.scaleLinear()
         .domain([0, d3.max(charData)])
         .range([height - margin.bottom - 5, margin.top])
         .interpolate(d3.interpolateRound);
 
+    // Vertical scale for values
     yAxisValues = d3.scaleLinear()
         .domain([0, d3.max(charData)])
         .range([height - margin.bottom - 5, margin.top])
         .interpolate(d3.interpolateRound);
 
+    // Ticks display
     yAxisTicks = d3.axisLeft(yAxisValues)
         .ticks(9)
-        .tickFormat(d => `${d/1000} K`)
+        .tickFormat(d => `${d/1000} K`);
 
+    // Horizontal scale for bars
     xScale = d3.scaleBand()
         .domain(charData)
         .padding(0.1)
         .range([0, width - margin.left - margin.right ]);
 
+    // Horizontal scale for values
     xAxisValues = d3.scaleBand()
         .domain(year_list)
         .range([margin.left, width - margin.right]);
 
+    // Colors display
     colors = d3.scaleSequential()
         .domain([d3.min(charData), d3.max(charData)])
         .interpolator(d3.interpolateBlues);
 
-    
+    // Creation of the bars
     svg.append('g')
         .attr('transform', 'translate(' + margin.left + ',' + margin.right + ')')
-        .style('background', '#F5F5F5')
         .selectAll('rect').data(charData)
             .enter().append('rect')
                 .style('fill', colors)
@@ -155,17 +160,19 @@ function char1(charData, pointer) {
                 .attr('x', d => xScale(d))
                 .attr('y', d => yScale(d));
 
-
+    // Adding the vertical scale
     svg.append('g')
         .attr('transform', `translate(${margin.left}, 18)`)
         .call(yAxisTicks)
         .call(g => g.select('.domain').remove());
 
+    // Adding the horizontal scale
     svg.append('g')
         .attr('transform', `translate(0, ${height - margin.bottom +15})`)
         .call(d3.axisBottom(xAxisValues))
         .call(g => g.select('.domain').remove());
 
+    // Adding a Title
     svg.append('text')
         .attr('font-size', '21px')
         .attr('class', 'title')
