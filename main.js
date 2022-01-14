@@ -12,7 +12,6 @@ d3.select('#first_cont')
     .html('<center><h1>Piedmont Tourism Data 2005 - 2021</h1></center>')
 
 // Global data initialisation
-let region_list = ['NO', 'VC', 'BI', 'VB', 'CN', 'AL', 'TO', 'AT']
 let year_list = [2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
 
 // Loading data
@@ -148,6 +147,7 @@ function char1(charData, pointer) {
     colors = d3.scaleSequential()
         .domain([d3.min(charData), d3.max(charData)])
         .interpolator(d3.interpolateBlues);
+        
 
     // Creation of the bars
     chart = svg.append('g')
@@ -158,8 +158,17 @@ function char1(charData, pointer) {
                 .attr('width', xScale.bandwidth())
                 .attr('height', d => yScale(0) - yScale(d))
                 .attr('x', d => xScale(d))
-                .attr('y', d => yScale(d));
-
+                .attr('y', d => yScale(d))
+                .on('mouseover', function(d) {
+                    tempColor = this.style.fill;
+                    d3.select(this)
+                      .style('fill', 'darkred')
+                  })
+              
+                .on('mouseout', function(d) {
+                    d3.select(this)
+                      .style('fill', tempColor)
+                  });
 
     // Adding the vertical scale
     svg.append('g')
