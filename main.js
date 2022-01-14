@@ -113,6 +113,7 @@ function char1(charData, pointer) {
         xAxisValues,
         yAxisValues,
         yAxisTicks,
+        chart,
         colors;
 
     // Vertical scale for bars
@@ -149,7 +150,7 @@ function char1(charData, pointer) {
         .interpolator(d3.interpolateBlues);
 
     // Creation of the bars
-    svg.append('g')
+    chart = svg.append('g')
         .attr('transform', 'translate(' + margin.left + ',' + margin.right + ')')
         .selectAll('rect').data(charData)
             .enter().append('rect')
@@ -158,6 +159,7 @@ function char1(charData, pointer) {
                 .attr('height', d => yScale(0) - yScale(d))
                 .attr('x', d => xScale(d))
                 .attr('y', d => yScale(d));
+
 
     // Adding the vertical scale
     svg.append('g')
