@@ -51,7 +51,7 @@ function regionPie (regionData, pointer) {
 
     console.log(regionData)
 
-    let radius = Math.min(width, height) / 2 - margin
+    xAxisValues = d3.scaleOrdinal(region_list)
 
     // Defining the canevas
     const svg = pointer.append('svg')
@@ -59,7 +59,42 @@ function regionPie (regionData, pointer) {
         .attr('height', height)
         .style('background', 'lightslategray')
 
-    
-    }
+    let radius = (Math.min(width, height) / 2) - 10;
+    let g = svg.append('g')
+        .attr('transform', 'translate('+ width / 2 + ',' + height / 2 + ')');
 
+    let color = d3.scaleOrdinal(['lightYellow', 'lightGreen','gray' ,
+         '#ffed00', '#ff8c00', 'violet','#004dff','#750787']);
+
+    let pie = d3.pie();
+
+    let arc = d3.arc()
+            .innerRadius(0)
+            .outerRadius(radius);
+
+    let arcs = g.selectAll('arc')
+            .data(pie(regionData))
+            .enter().append('g')
+            .attr('class','arc')
+    
+    arcs.append('path')
+        .attr('fill',function(d, i){
+            return color(i)
+        })
+        .attr('d', arc);
+
+    arcs.append('text')
+        .attr('transform', function(d){return 'translate(' + arc.centroid(d) + ')';})
+        .text(xAxisValues)
+        .style('font-size', '10px')
+        .style('font-weight', 'bold');
+
+    svg.append('g')
+        .attr('transform', 'translate(' + (width / 2 - 240) + ',' + 20 + ')')
+        .append('text')
+        .text('Share of Total turism arrivals per region from 2005 to 2021')
+        .attr('class', 'title')
+        .style('font-size', '17px')
+        .style('font-weight', 'bold');
+    }
 loadData();
