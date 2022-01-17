@@ -103,7 +103,7 @@ function char1(charData, pointer) {
     const svg = pointer.append('svg')
         .attr('width', width)
         .attr('height', height)
-        .style('background', 'lightslategray')
+        .style('background', 'white')
 
     // Initialisizing variables
     let yScale,
@@ -112,6 +112,7 @@ function char1(charData, pointer) {
         yAxisValues,
         yAxisTicks,
         chart,
+        tempColor,
         colors;
 
     // Vertical scale for bars
@@ -125,6 +126,13 @@ function char1(charData, pointer) {
         .domain([0, d3.max(charData)])
         .range([height - margin.bottom - 5, margin.top])
         .interpolate(d3.interpolateRound);
+
+    tooltip = d3.select('body')
+        .append('div')
+            .style('position', 'absolute')
+            .style('padding', '0 10px')
+            .style('background', 'white')
+            .style('opacity', 0);
 
     // Ticks display
     yAxisTicks = d3.axisLeft(yAxisValues)
@@ -158,6 +166,7 @@ function char1(charData, pointer) {
                 .attr('height', d => yScale(0) - yScale(d))
                 .attr('x', d => xScale(d))
                 .attr('y', d => yScale(d))
+
                 .on('mouseover', function(d) {
                     tempColor = this.style.fill;
                     d3.select(this)
@@ -167,7 +176,7 @@ function char1(charData, pointer) {
                 .on('mouseout', function(d) {
                     d3.select(this)
                       .style('fill', tempColor)
-                  });
+                  })
 
     // Adding the vertical scale
     svg.append('g')

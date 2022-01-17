@@ -62,7 +62,7 @@ function regionPie (regionData, pointer) {
     const svg = pointer.append('svg')
         .attr('width', width)
         .attr('height', height)
-        .style('background', 'lightslategray')
+        .style('background', 'white')
 
     // Radius of the pie
     let radius = (Math.min(width, height) / 2) - 10;
@@ -72,8 +72,8 @@ function regionPie (regionData, pointer) {
         .attr('transform', 'translate('+ width / 2 + ',' + height / 2 + ')');
 
     // Color of the pie
-    let color = d3.scaleOrdinal(['lightYellow', 'lightGreen','gray' ,
-         '#ffed00', '#ff8c00', 'violet','#004dff','#750787']);
+    let color = d3.scaleOrdinal(['lightYellow', 'lightGreen','#006666' ,
+         '#669900', '#ff8c00', 'violet','#8080ff','#006600']);
 
     // Pie variable deifiniton
     let pie = d3.pie();
@@ -94,7 +94,10 @@ function regionPie (regionData, pointer) {
         .attr('fill',function(d, i){
             return color(i)
         })
-        .attr('d', arc);
+        .attr('d', arc)
+        .attr("stroke", "black")
+        .style("stroke-width", "2px")
+        .style("opacity", 0.7);
 
     // Legend within the slices
     arcs.append('text')
