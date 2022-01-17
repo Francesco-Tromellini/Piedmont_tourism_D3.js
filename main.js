@@ -8,8 +8,7 @@ const width = 500,
       height = 600;
 
 // Title
-d3.select('#first_cont')
-    .html('<center><h1>Piedmont Tourism Data 2005 - 2021</h1></center>')
+
 
 // Global data initialisation
 let year_list = [2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]

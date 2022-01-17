@@ -1,6 +1,6 @@
+
 // Global variables
 const region_list = ['NO', 'VC', 'BI', 'VB', 'CN', 'AL', 'TO', 'AT'];
-
 const viz4 = d3.select('#viz4');
 
 // Loading data
@@ -20,6 +20,7 @@ function loadData() {
     }).then(onDataLoaded);
 }
 
+// Setup filtering Data
 function onDataLoaded(data) {
 
     let regArray = [];
@@ -31,6 +32,7 @@ function onDataLoaded(data) {
     regionPie(regArray, viz4);
 }
 
+// Filtering data per region
 function regionFilter (data, currentRegion) {
 
     let data_x = data.filter(d => d.region == currentRegion);
@@ -47,10 +49,13 @@ function regionFilter (data, currentRegion) {
     return result;
 }
 
+// Creating the pie chart
 function regionPie (regionData, pointer) {
 
+    // Verify the data
     console.log(regionData)
 
+    // Region to attribute to each slice of the pie
     xAxisValues = d3.scaleOrdinal(region_list)
 
     // Defining the canevas
@@ -59,36 +64,46 @@ function regionPie (regionData, pointer) {
         .attr('height', height)
         .style('background', 'lightslategray')
 
+    // Radius of the pie
     let radius = (Math.min(width, height) / 2) - 10;
+
+    // Positioning
     let g = svg.append('g')
         .attr('transform', 'translate('+ width / 2 + ',' + height / 2 + ')');
 
+    // Color of the pie
     let color = d3.scaleOrdinal(['lightYellow', 'lightGreen','gray' ,
          '#ffed00', '#ff8c00', 'violet','#004dff','#750787']);
 
+    // Pie variable deifiniton
     let pie = d3.pie();
 
+    // Creating the shape
     let arc = d3.arc()
             .innerRadius(0)
             .outerRadius(radius);
-
+    
+    // Filling the shape with data => creating the pie
     let arcs = g.selectAll('arc')
             .data(pie(regionData))
             .enter().append('g')
             .attr('class','arc')
     
+    // Giving color to the slices
     arcs.append('path')
         .attr('fill',function(d, i){
             return color(i)
         })
         .attr('d', arc);
 
+    // Legend within the slices
     arcs.append('text')
         .attr('transform', function(d){return 'translate(' + arc.centroid(d) + ')';})
         .text(xAxisValues)
         .style('font-size', '10px')
         .style('font-weight', 'bold');
 
+    // Title of the chart
     svg.append('g')
         .attr('transform', 'translate(' + (width / 2 - 240) + ',' + 20 + ')')
         .append('text')
