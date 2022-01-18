@@ -14,9 +14,10 @@ p {
 }
 
 body{
-    margin: 10%;
+    margin: 3%;
     font-family: Arial, Helvetica, sans-serif;
     font-size: large;
+    line-height: 1.6;
 }
 
 h2 {
@@ -28,4 +29,17 @@ h2 {
 }
 #first_cont {
     display: flex;
+    margin-left: 20%;
+}
+.container {
+    border: 3px solid darkblue;
+    padding: 20px 40px 40px;
+    margin: 20px 20px 20px 20px;
+    max-width: 90%;
+    display: inline-block;
+  }
+.container__image {
+    border: 1px solid black;
+    margin-left: 20px;
+    display: inline-block;
 }
