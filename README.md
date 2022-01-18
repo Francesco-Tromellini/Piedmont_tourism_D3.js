@@ -11,8 +11,8 @@ The page view is divided into four blocks corresponding to:
 * The presentation of the Data
 * The Comparison between the arrivals of Italian and foreign tourists
 * The global trend of Piedmont's turism
-* The comparison between the eight regions inside Piedmont. \\
-Each block is visibly delimited and corresponds to a different chapter of the "narrative" such as the second in the image below. 
+* The comparison between the eight regions inside Piedmont.
+\\ Each block is visibly delimited and corresponds to a different chapter of the "narrative" such as the second in the image below. 
 ![](images/Immagine_esempio.png)
 *Visualization example 1*
 
