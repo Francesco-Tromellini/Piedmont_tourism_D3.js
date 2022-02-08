@@ -7,7 +7,9 @@ const viz3 = d3.select('#viz3');
 const width = 500,
       height = 600;
 
-// Title
+const titleIt = 'Number of arrivals of Italian tourists',
+      titleSt = 'Number of foreign tourist arrivals',
+      titleTot = 'Total number of arrivals per year';
 
 
 // Global data initialisation
@@ -43,9 +45,9 @@ function onDataLoaded(data) {
         totArrForYear.push(totYearFilter(data, year_list[i]));
     }
 
-    char1(itArrForYear, viz1);
-    char1(stArrForYear, viz2);
-    char1(totArrForYear, viz3);
+    char1(itArrForYear, viz1, titleIt);
+    char1(stArrForYear, viz2, titleSt);
+    char1(totArrForYear, viz3, titleTot);
 }
 
 // Filtering italian arrives per year
@@ -95,7 +97,7 @@ function totYearFilter (data, currentYear) {
 }
 
 // Creating the bar chart
-function char1(charData, pointer) {
+function char1(charData, pointer, title) {
 
     console.log(charData);
       
@@ -197,7 +199,7 @@ function char1(charData, pointer) {
         .attr('x', width / 2 + margin.left / 2)
         .attr('y', 20)
         .attr('text-anchor', 'middle')
-        .text('Number of arrivals per year')
+        .text(`${title}`)
         .style('fill', 'black')
         .style('font-weight', 'bold')
 
