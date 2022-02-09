@@ -24,6 +24,13 @@ h2 {
     color: skyblue;
 }
 
+.text {
+    font-size: 12px;
+  }
+.title-text {
+    font-size: 12px;
+  }
+
 .block {
     display: inline-block ;
 }

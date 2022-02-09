@@ -185,7 +185,7 @@ function lineChart(data, pointer){
             .text(d.name)
             .attr("text-anchor", "middle")
             .attr("x", (width-margin)/2)
-            .attr("y", 5);
+            .attr("y", height/2);
         })
         .on("mouseout", function(d) {
             svg.select(".title-text").remove();
@@ -232,7 +232,7 @@ function lineChart(data, pointer){
             .attr("class", "text")
             .text(`${d.tourists}`)
             .attr("x", d => xScale(d.date) + 5)
-            .attr("y", d => yScale(d.tourists) - 10);
+            .attr("y", d => yScale(d.tourists) -10);
         })
         .on("mouseout", function(d) {
             d3.select(this)
