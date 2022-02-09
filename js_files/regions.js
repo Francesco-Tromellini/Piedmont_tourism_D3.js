@@ -1,7 +1,16 @@
 
 // Global variables
 const region_list = ['NO', 'VC', 'BI', 'VB', 'CN', 'AL', 'TO', 'AT'];
+const region_area = [1340, 2082, 913, 2261, 6905, 3559, 6827, 1510 ];
+const region_pop = [369000, 170000, 175000, 158000, 587000, 421000, 2260000, 214000]
 const viz4 = d3.select('#viz4');
+const viz7 = d3.select('#viz7');
+const viz8 = d3.select('#viz8');
+
+// Titles
+const title_tot = "Tourist per region (raw data)"
+const title_area = "Tourist per region dived by region area in km2"
+const title_pop = "Tourist per region divevd by total population of the region"
 
 // Loading data
 function loadData() {
@@ -24,12 +33,17 @@ function loadData() {
 function onDataLoaded(data) {
 
     let regArray = [];
+    let regArea = [];
+    let regPop = [];
 
     for(let i = 0; i < region_list.length; i++){
         regArray.push(regionFilter(data, region_list[i]));
+        regArea.push(Math.round(regionFilter(data, region_list[i])/region_area[i]))
+        regPop.push(Math.round(regionFilter(data, region_list[i])/region_pop[i]))
     }
-
-    regionPie(regArray, viz4);
+    regionPie(regPop, viz8, title_pop);
+    regionPie(regArea, viz7, title_area);
+    regionPie(regArray, viz4, title_tot);
 }
 
 // Filtering data per region
@@ -45,15 +59,14 @@ function regionFilter (data, currentRegion) {
         }
         result += Number(data_x[i].tot_arr);
     }
-
     return result;
 }
 
 // Creating the pie chart
-function regionPie (regionData, pointer) {
+function regionPie (regionData, pointer, title) {
 
     // Verify the data
-    console.log(regionData)
+    // console.log(regionData)
 
     // Region to attribute to each slice of the pie
     xAxisValues = d3.scaleOrdinal(region_list)
@@ -110,7 +123,7 @@ function regionPie (regionData, pointer) {
     svg.append('g')
         .attr('transform', 'translate(' + (width / 2 - 240) + ',' + 20 + ')')
         .append('text')
-        .text('Share of Total turism arrivals per region from 2005 to 2021')
+        .text(`${title}`)
         .attr('class', 'title')
         .style('font-size', '17px')
         .style('font-weight', 'bold');

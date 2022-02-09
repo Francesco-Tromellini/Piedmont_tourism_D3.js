@@ -99,7 +99,7 @@ function totYearFilter (data, currentYear) {
 // Creating the bar chart
 function char1(charData, pointer, title) {
 
-    console.log(charData);
+    // console.log(charData);
       
     // Defining the canevas
     const svg = pointer.append('svg')
