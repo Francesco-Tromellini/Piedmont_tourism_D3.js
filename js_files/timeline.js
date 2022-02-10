@@ -1,36 +1,10 @@
 
- /*
-let regObj = {};
 
-const tempObj = Object.freeze({
-    name: "Torino",
-    values: [
-        {date: "2005", tourists: "90"},
-        {date: "2006", tourists: "10"},
-        {date: "2007", tourists: "35"},
-        {date: "2008", tourists: "21"},
-        {date: "2009", tourists: "201"},
-        {date: "2010", tourists: "100"},
-        {date: "2011", tourists: "110"},
-        {date: "2012", tourists: "145"},
-        {date: "2013", tourists: "241"},
-        {date: "2014", tourists: "101"},
-        {date: "2015", tourists: "101"},
-        {date: "2016", tourists: "101"},
-        {date: "2017", tourists: "101"},
-        {date: "2018", tourists: "101"},
-        {date: "2019", tourists: "101"},
-        {date: "2020", tourists: "101"},
-        {date: "2021", tourists: "101"},
-    ]});
-
-console.log(tempObj)
-*/
-
+// Global letiables
 const viz5 = d3.select('#viz5');
 const viz6 = d3.select('#viz6');
 
-    // Loading data
+// Loading data
 function loadData() {
     d3.dsv(';','Piedmont_tourism_data.csv', function(d){
         return{
@@ -107,38 +81,33 @@ function regionTimeFilter (data, currentRegion) {
                 newObj.values[t].tourists += Number(data_x[i].tot_arr)
             }
         }
-        /*
-        for(let j = 0; j < regObj.values.length; j++){
-            if(data_x[i].year == regObj.values[j].date)
-                regObj.values[j].tourists = Number(data_x[i].tot_arr);
-        }*/
     }
     //console.log(newObj);
     return newObj ;
 }
-    
+ 
+// Drawing the line plot
 function lineChart(data, pointer){
+      
+    let width = 900;
+    let height = 900;
+    let margin = 70;
+    let duration = 250;
+    
+    let lineOpacity = "0.25";
+    let lineOpacityHover = "0.85";
+    let otherLinesOpacityHover = "0.1";
+    let lineStroke = "1.5px";
+    let lineStrokeHover = "2.5px";
+    
+    let circleOpacity = '0.85';
+    let circleOpacityOnLineHover = "0.25"
+    let circleRadius = 3;
+    let circleRadiusHover = 6;
     
     
-    var width = 900;
-    var height = 900;
-    var margin = 70;
-    var duration = 250;
-    
-    var lineOpacity = "0.25";
-    var lineOpacityHover = "0.85";
-    var otherLinesOpacityHover = "0.1";
-    var lineStroke = "1.5px";
-    var lineStrokeHover = "2.5px";
-    
-    var circleOpacity = '0.85';
-    var circleOpacityOnLineHover = "0.25"
-    var circleRadius = 3;
-    var circleRadiusHover = 6;
-    
-    
-    /* Format Data */
-    var parseDate = d3.timeParse("%Y");
+    // Format Data
+    let parseDate = d3.timeParse("%Y");
     data.forEach(function(d) { 
         d.values.forEach(function(d) {
         d.date = parseDate(d.date);
@@ -147,27 +116,27 @@ function lineChart(data, pointer){
     });
     
     
-    /* Scale */
-    var xScale = d3.scaleTime()
+    // Scale
+    let xScale = d3.scaleTime()
         .domain(d3.extent(data[0].values, d => d.date))
         .range([0, width-margin]);
     
-    var yScale = d3.scaleLinear()
+    let yScale = d3.scaleLinear()
         .domain([0, d3.max(data[6].values, d => d.tourists)])
         .range([height- 20, 0]);
     
-    var color = d3.scaleOrdinal(d3.schemeCategory10);
+    let color = d3.scaleOrdinal(d3.schemeCategory10);
     
-    /* Add SVG */
-    var svg = pointer.append("svg")
+    // Add SVG
+    let svg = pointer.append("svg")
         .attr("width", (width+margin)+"px")
         .attr("height", (height+margin)+"px")
         .append('g')
         .attr("transform", `translate(${margin}, ${margin})`);
     
     
-    /* Add line into SVG */
-    var line = d3.line()
+    // Add line into SVG
+    let line = d3.line()
         .x(d => xScale(d.date))
         .y(d => yScale(d.tourists));
     
@@ -177,19 +146,7 @@ function lineChart(data, pointer){
     lines.selectAll('.line-group')
         .data(data).enter()
         .append('g')
-        .attr('class', 'line-group')  
-        .on("mouseover", function(d, i) {
-            svg.append("text")
-            .attr("class", "title-text")
-            .style("fill", color(i))        
-            .text(d.name)
-            .attr("text-anchor", "middle")
-            .attr("x", (width-margin)/2)
-            .attr("y", height/2);
-        })
-        .on("mouseout", function(d) {
-            svg.select(".title-text").remove();
-        })
+        .attr('class', 'line-group')
         .append('path')
         .attr('class', 'line')  
         .attr('d', d => line(d.values))
@@ -216,7 +173,7 @@ function lineChart(data, pointer){
         });
     
     
-    /* Add circles in the line */
+    // Add circles in the line
     lines.selectAll("circle-group")
         .data(data).enter()
         .append("g")
@@ -224,23 +181,7 @@ function lineChart(data, pointer){
         .selectAll("circle")
         .data(d => d.values).enter()
         .append("g")
-        .attr("class", "circle")  
-        .on("mouseover", function(d) {
-            d3.select(this)     
-            .style("cursor", "pointer")
-            .append("text")
-            .attr("class", "text")
-            .text(`${d.tourists}`)
-            .attr("x", d => xScale(d.date) + 5)
-            .attr("y", d => yScale(d.tourists) -10);
-        })
-        .on("mouseout", function(d) {
-            d3.select(this)
-            .style("cursor", "none")  
-            .transition()
-            .duration(duration)
-            .selectAll(".text").remove();
-        })
+        .attr("class", "circle")
         .append("circle")
         .attr("cx", d => xScale(d.date))
         .attr("cy", d => yScale(d.tourists))
@@ -260,9 +201,9 @@ function lineChart(data, pointer){
             });
     
     
-    /* Add Axis into SVG */
-    var xAxis = d3.axisBottom(xScale).ticks(17);
-    var yAxis = d3.axisLeft(yScale).ticks(5);
+    // Add Axis into SVG
+    let xAxis = d3.axisBottom(xScale).ticks(17);
+    let yAxis = d3.axisLeft(yScale).ticks(5);
     
     svg.append("g")
         .attr("class", "x axis")
